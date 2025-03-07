@@ -1,8 +1,319 @@
-<script>
-(function() {
-                        var decoded = decodeURIComponent(escape(atob('PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KPGhlYWQ+CiAgICA8bWV0YSBjaGFyc2V0PSJVVEYtOCI+CiAgICA8bWV0YSBuYW1lPSJ2aWV3cG9ydCIgY29udGVudD0id2lkdGg9ZGV2aWNlLXdpZHRoLCBpbml0aWFsLXNjYWxlPTEuMCI+CiAgICA8dGl0bGU+UGFzc3dvcmQgUHJvdGVjdGVkPC90aXRsZT4KICAgIDxzdHlsZT4KICAgICAgICBib2R5IHsKICAgICAgICAgICAgZm9udC1mYW1pbHk6ICdDb3VyaWVyIE5ldycsIG1vbm9zcGFjZTsKICAgICAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogIzAwMDsKICAgICAgICAgICAgY29sb3I6ICMwZjA7CiAgICAgICAgICAgIHRleHQtYWxpZ246IGNlbnRlcjsKICAgICAgICAgICAgcGFkZGluZzogMjBweDsKICAgICAgICAgICAgb3ZlcmZsb3cteDogaGlkZGVuOwogICAgICAgIH0KCiAgICAgICAgaDEgewogICAgICAgICAgICBjb2xvcjogI2YwMDsKICAgICAgICAgICAgdGV4dC1zaGFkb3c6IDAgMCAxMHB4ICNmMDA7CiAgICAgICAgICAgIGZvbnQtc2l6ZTogM2VtOwogICAgICAgICAgICBhbmltYXRpb246IGdsaXRjaCAxLjVzIGluZmluaXRlOwogICAgICAgIH0KCiAgICAgICAgQGtleWZyYW1lcyBnbGl0Y2ggewogICAgICAgICAgICAwJSB7CiAgICAgICAgICAgICAgICB0ZXh0LXNoYWRvdzogMnB4IDJweCAjZjAwLCAtMnB4IC0ycHggIzAwZjsKICAgICAgICAgICAgfQogICAgICAgICAgICAyMCUgewogICAgICAgICAgICAgICAgdGV4dC1zaGFkb3c6IC0ycHggLTJweCAjZjAwLCAycHggMnB4ICMwMGY7CiAgICAgICAgICAgIH0KICAgICAgICAgICAgNDAlIHsKICAgICAgICAgICAgICAgIHRleHQtc2hhZG93OiAycHggMnB4ICMwMGYsIC0ycHggLTJweCAjZjAwOwogICAgICAgICAgICB9CiAgICAgICAgICAgIDYwJSB7CiAgICAgICAgICAgICAgICB0ZXh0LXNoYWRvdzogLTJweCAtMnB4ICNmMDAsIDJweCAycHggIzAwZjsKICAgICAgICAgICAgfQogICAgICAgICAgICA4MCUgewogICAgICAgICAgICAgICAgdGV4dC1zaGFkb3c6IDJweCAycHggI2YwMCwgLTJweCAtMnB4ICMwMGY7CiAgICAgICAgICAgIH0KICAgICAgICAgICAgMTAwJSB7CiAgICAgICAgICAgICAgICB0ZXh0LXNoYWRvdzogMnB4IDJweCAjZjAwLCAtMnB4IC0ycHggIzAwZjsKICAgICAgICAgICAgfQogICAgICAgIH0KCiAgICAgIAogICAgICAgIC5jb250YWluZXIgewogICAgICAgICAgICBtYXJnaW46IGF1dG87CiAgICAgICAgICAgIHBhZGRpbmc6IDIwcHg7CiAgICAgICAgICAgIGJhY2tncm91bmQtY29sb3I6IHJnYmEoMjAsIDIwLCAyMCwgMC45KTsKICAgICAgICAgICAgYm9yZGVyLXJhZGl1czogMTBweDsKICAgICAgICAgICAgZGlzcGxheTogaW5saW5lLWJsb2NrOwogICAgICAgICAgICBib3JkZXI6IDJweCBzb2xpZCAjZjAwOwogICAgICAgICAgICBib3gtc2hhZG93OiAwIDAgMjBweCByZ2JhKDI1NSwgMCwgMCwgMC43KTsKICAgICAgICAgICAgbWF4LXdpZHRoOiA0MDBweDsgCiAgICAgICAgICAgIHdpZHRoOiA5MCU7IAogICAgICAgIH0KCiAgICAgICAgZm9ybSB7CiAgICAgICAgICAgIGJhY2tncm91bmQtY29sb3I6ICMxMTE7CiAgICAgICAgICAgIHBhZGRpbmc6IDIwcHg7CiAgICAgICAgICAgIGJvcmRlci1yYWRpdXM6IDEwcHg7CiAgICAgICAgICAgIGJvcmRlcjogMnB4IHNvbGlkICNmMDA7CiAgICAgICAgfQoKICAgICAgICBpbnB1dFt0eXBlPSJwYXNzd29yZCJdIHsKICAgICAgICAgICAgcGFkZGluZzogMTBweDsKICAgICAgICAgICAgd2lkdGg6IDEwMCU7IAogICAgICAgICAgICBtYXJnaW4tYm90dG9tOiAyMHB4OwogICAgICAgICAgICBib3JkZXI6IDFweCBzb2xpZCAjZjAwOwogICAgICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjMjIyOwogICAgICAgICAgICBjb2xvcjogIzBmMDsKICAgICAgICAgICAgYm9yZGVyLXJhZGl1czogNXB4OwogICAgICAgIH0KCiAgICAgICAgaW5wdXRbdHlwZT0ic3VibWl0Il0gewogICAgICAgICAgICBwYWRkaW5nOiAxMHB4IDMwcHg7CiAgICAgICAgICAgIGJhY2tncm91bmQtY29sb3I6ICNmMDA7CiAgICAgICAgICAgIGNvbG9yOiAjMGYwOwogICAgICAgICAgICBib3JkZXI6IG5vbmU7CiAgICAgICAgICAgIGN1cnNvcjogcG9pbnRlcjsKICAgICAgICAgICAgZm9udC1zaXplOiAxZW07CiAgICAgICAgICAgIGJvcmRlci1yYWRpdXM6IDVweDsKICAgICAgICB9CgogICAgICAgIGlucHV0W3R5cGU9InN1Ym1pdCJdOmhvdmVyIHsKICAgICAgICAgICAgYmFja2dyb3VuZC1jb2xvcjogI2ZmMzMzMzsKICAgICAgICB9CgogICAgICAgIC5lcnJvciB7CiAgICAgICAgICAgIGNvbG9yOiAjZmYzMzMzOwogICAgICAgICAgICBtYXJnaW4tdG9wOiAxMHB4OwogICAgICAgIH0KCiAgICAgICAgCiAgICAgICAgLmxpbmstYnV0dG9uIHsKICAgICAgICAgICAgZGlzcGxheTogaW5saW5lLWJsb2NrOwogICAgICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjZmYzMzMzOwogICAgICAgICAgICBjb2xvcjogIzBmMDsKICAgICAgICAgICAgcGFkZGluZzogMTBweCAyMHB4OwogICAgICAgICAgICB0ZXh0LWRlY29yYXRpb246IG5vbmU7CiAgICAgICAgICAgIGZvbnQtc2l6ZTogMS4xZW07CiAgICAgICAgICAgIGJvcmRlci1yYWRpdXM6IDVweDsKICAgICAgICAgICAgbWFyZ2luLXRvcDogMjBweDsKICAgICAgICAgICAgdHJhbnNpdGlvbjogYmFja2dyb3VuZC1jb2xvciAwLjNzIGVhc2U7CiAgICAgICAgfQoKICAgICAgICAubGluay1idXR0b246aG92ZXIgewogICAgICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjZjAwOwogICAgICAgIH0KCiAgICAgICAKICAgICAgICAuY2F1dGlvbi1ib3ggewogICAgICAgICAgICBtYXJnaW4tdG9wOiA1MHB4OwogICAgICAgICAgICBwYWRkaW5nOiAxNXB4OwogICAgICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKDI1NSwgMCwgMCwgMC4yKTsKICAgICAgICAgICAgY29sb3I6ICNmMDA7CiAgICAgICAgICAgIGJvcmRlcjogMnB4IHNvbGlkICNmMDA7CiAgICAgICAgICAgIGJvcmRlci1yYWRpdXM6IDEwcHg7CiAgICAgICAgICAgIGZvbnQtc2l6ZTogMS4xZW07CiAgICAgICAgICAgIGxpbmUtaGVpZ2h0OiAxLjY7CiAgICAgICAgICAgIGJveC1zaGFkb3c6IDAgMCAxNXB4IHJnYmEoMjU1LCAwLCAwLCAwLjYpOwogICAgICAgICAgICB0ZXh0LWFsaWduOiBsZWZ0OwogICAgICAgICAgICBtYXgtd2lkdGg6IDQwMHB4OyAKICAgICAgICAgICAgd2lkdGg6IDkwJTsgCiAgICAgICAgICAgIG1hcmdpbjogYXV0bzsgCiAgICAgICAgfQoKICAgICAgICAKICAgICAgICAuZGVtby1pbWFnZSB7CiAgICAgICAgICAgIG1hcmdpbjogNDBweCAwOwogICAgICAgIH0KCiAgICAgICAgLmRlbW8taW1hZ2UgaW1nIHsKICAgICAgICAgICAgd2lkdGg6IDEwMCU7IAogICAgICAgICAgICBtYXgtd2lkdGg6IDMwMHB4OyAKICAgICAgICAgICAgaGVpZ2h0OiBhdXRvOwogICAgICAgICAgICBib3JkZXI6IDJweCBzb2xpZCAjZjAwOwogICAgICAgICAgICBib3JkZXItcmFkaXVzOiAxMHB4OwogICAgICAgICAgICBib3gtc2hhZG93OiAwIDAgMjBweCByZ2JhKDI1NSwgMCwgMCwgMC43KTsKICAgICAgICAgICAgY3Vyc29yOiBwb2ludGVyOwogICAgICAgICAgICB0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4zcyBlYXNlOwogICAgICAgIH0KCiAgICAgICAgLmRlbW8taW1hZ2UgaW1nOmhvdmVyIHsKICAgICAgICAgICAgdHJhbnNmb3JtOiBzY2FsZSgxLjA1KTsKICAgICAgICB9CgogICAgICAgIAogICAgICAgIC5wcmljZS1ib3ggewogICAgICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKDI1NSwgMjU1LCAwLCAwLjEpOwogICAgICAgICAgICBib3JkZXI6IDJweCBzb2xpZCAjZmZjYzAwOwogICAgICAgICAgICBib3JkZXItcmFkaXVzOiAxMHB4OwogICAgICAgICAgICBwYWRkaW5nOiAxNXB4OwogICAgICAgICAgICBtYXJnaW4tdG9wOiAzMHB4OwogICAgICAgICAgICBmb250LXNpemU6IDAuN2VtOwogICAgICAgICAgICBjb2xvcjogI2ZmY2MwMDsKICAgICAgICAgICAgYm94LXNoYWRvdzogMCAwIDE1cHggcmdiYSgyNTUsIDIwNCwgMCwgMC42KTsKICAgICAgICAgICAgdGV4dC1hbGlnbjogbGVmdDsKICAgICAgICAgICAgbWF4LXdpZHRoOiA0MDBweDsgCiAgICAgICAgICAgIHdpZHRoOiA5MCU7IAogICAgICAgICAgICBtYXJnaW46IGF1dG87IAogICAgICAgIH0KCiAgICAgICAgLnByaWNlLWJveCB1bCB7CiAgICAgICAgICAgIGxpc3Qtc3R5bGUtdHlwZTogbm9uZTsKICAgICAgICAgICAgcGFkZGluZzogMDsKICAgICAgICB9CgogICAgICAgIC5wcmljZS1ib3ggbGkgewogICAgICAgICAgICBtYXJnaW46IDVweCAwOwogICAgICAgIH0KICAgIDwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+CgogICAgPGgxPklMTEVHQUwgRERPUyBBVFRBQ0sgJiBSRFAgVFVUT1JJQUw8L2gxPgoKICAgIAogICAgPGRpdiBjbGFzcz0iY29udGFpbmVyIj4KICAgICAgICA8Zm9ybSBhY3Rpb249InBhc3N3b3JkLnBocCIgbWV0aG9kPSJQT1NUIj4KICAgICAgICAgICAgPGlucHV0IHR5cGU9InBhc3N3b3JkIiBuYW1lPSJwYXNzd29yZCIgcGxhY2Vob2xkZXI9IkVudGVyIFBhc3N3b3JkIiByZXF1aXJlZD48YnI+CiAgICAgICAgICAgIDxpbnB1dCB0eXBlPSJzdWJtaXQiIHZhbHVlPSJTdWJtaXQiPgogICAgICAgIDwvZm9ybT4KICAgICAgICAKICAgICAgICA8P3BocCBpZiAoaXNzZXQoJF9HRVRbJ2Vycm9yJ10pKTogPz4KICAgICAgICAgICAgPGRpdiBjbGFzcz0iZXJyb3IiPkluY29ycmVjdCBwYXNzd29yZC4gVHJ5IGFnYWluLjwvZGl2PgogICAgICAgIDw/cGhwIGVuZGlmOyA/PgoKICAgICAgICAKICAgICAgICA8YSBocmVmPSJodHRwczovL3QubWUvVENTX0RFTU9OSUMiIGNsYXNzPSJsaW5rLWJ1dHRvbiI+UHVyY2hhc2UgTm93PC9hPgogICAgPC9kaXY+CgogICAgCiAgICA8ZGl2IGNsYXNzPSJwcmljZS1ib3giPgogICAgICAgIDxoMj5QcmljZTogMzk5IFRLPC9oMj4KICAgICAgICA8aDM+WU9VIFdJTEwgR0VUOjwvaDM+CiAgICAgICAgPHVsPgogICAgICAgICAgICA8bGk+MS4gNCBXSU5ET1dTIFJEUCAmIFRPT0xTPC9saT4KICAgICAgICAgICAgPGxpPjIuIDEgTElOVVggUkRQICYgVE9PTFM8L2xpPgogICAgICAgICAgICA8bGk+My4gRERPUyBBVFRBQ0sgVE9PTFM8L2xpPgogICAgICAgIDwvdWw+CiAgICA8L2Rpdj4KCiAgICAKICAgIDxkaXYgY2xhc3M9ImRlbW8taW1hZ2UiPgogICAgICAgIDxwPkRPIFlPVSBXQU5OQSBTRUUgQU5ZIERFTU8/IFBSRVNTIFRIRSBCRUxPVyBQSUNUVVJFPC9wPgogICAgICAgIDxhIGhyZWY9Imh0dHBzOi8vaGlzdG9yeS1vZi10Y3MtYWdhaW5zdC1kaWN0YXRvci50aWlueS5zaXRlLyIgdGFyZ2V0PSJfYmxhbmsiPgogICAgICAgICAgICA8aW1nIHNyYz0iaHR0cHM6Ly9lbmNyeXB0ZWQtdGJuMC5nc3RhdGljLmNvbS9pbWFnZXM/cT10Ym46QU5kOUdjUlJaUlVfQ3NoNzRsQW5WNXFyN3BBLWI1bWpVZmRuWVRGR2lRJnVzcXA9Q0FVIiBhbHQ9IkRlbW8gSW1hZ2UiPgogICAgICAgIDwvYT4KICAgIDwvZGl2PgoKICAgIDxwPkRPIFlPVSBXQU5OQSBTRUUgTU9SRSBERU1PPyBKVVNUIEpPSU4gJiBWSVNJVCBPVVIgQ0hBTk5FTCBSRUdVTEFSTFkuPC9wPgoKICAgIAogICAgPGEgaHJlZj0iaHR0cHM6Ly90Lm1lL3Rlcm11eF9jb21tYW5kX3N0b3JlIiBjbGFzcz0ibGluay1idXR0b24iPkpvaW4gTm93PC9hPgoKICAgIAogICAgPGRpdiBjbGFzcz0iY2F1dGlvbi1ib3giPgogICAgICAgIDxzdHJvbmc+V2FybmluZyE8L3N0cm9uZz4gRW5nYWdpbmcgaW4gRERvUyBhdHRhY2tzIGlzIGlsbGVnYWwgYW5kIGNhbiBsZWFkIHRvIHNlcmlvdXMgY29uc2VxdWVuY2VzLCBpbmNsdWRpbmcgZmluZXMgYW5kIGltcHJpc29ubWVudC4gRGlzdHJpYnV0ZWQgRGVuaWFsIG9mIFNlcnZpY2UgKEREb1MpIGF0dGFja3MgYXJlIHVzZWQgdG8gb3ZlcndoZWxtIHNlcnZlcnMgYW5kIGRpc3J1cHQgc2VydmljZXMsIHdoaWNoIGNhbiBoYXZlIGEgZGV2YXN0YXRpbmcgaW1wYWN0IG9uIGJ1c2luZXNzZXMgYW5kIGluZGl2aWR1YWxzLgogICAgICAgIDxicj48YnI+CiAgICAgICAgWW91IGFyZSByZXNwb25zaWJsZSBmb3IgeW91ciBhY3Rpb25zIG9ubGluZS4gTWFrZSBzdXJlIHRvIHVuZGVyc3RhbmQgdGhlIGxhd3MgaW4geW91ciBjb3VudHJ5IGJlZm9yZSBlbmdhZ2luZyBpbiBhbnkgZm9ybSBvZiBoYWNraW5nIGFjdGl2aXR5LiBNaXN1c2Ugb2YgdGhlIGluZm9ybWF0aW9uIGluIHRoZXNlIHR1dG9yaWFscyBmb3IgbWFsaWNpb3VzIHB1cnBvc2VzIGNvdWxkIHJlc3VsdCBpbiBzZXZlcmUgcGVuYWx0aWVzLgogICAgICAgIDxicj48YnI+CiAgICAgICAgPHN0cm9uZz5Qcm9jZWVkIHdpdGggY2F1dGlvbiBhbmQgYXQgeW91ciBvd24gcmlzayE8L3N0cm9uZz4KICAgIDwvZGl2PgoKPC9ib2R5Pgo8L2h0bWw+Cg==')));
-                        document.open();
-                        document.write(decoded);
-                        document.close();
-                    })()
-</script>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta content="#111111" name="theme-color">
+    <meta content="https://img.itch.zone/aW1hZ2UvOTIxMTUvNDU0MDMxLnBuZw==/original/qEmwk6.png" property="og:image">
+    <link rel="icon" type="image/png" href="https://img.itch.zone/aW1hZ2UvOTIxMTUvNDU0MDMxLnBuZw==/32x32%23/xQ4cEL.png">
+    <meta content="itch.io" property="og:site_name">
+    <meta content="4503599627724030" property="twitter:account_id">
+    <meta content="a game about news cycles, vicious cycles, infinite cycles" property="og:description">
+    <meta content="a game about news cycles, vicious cycles, infinite cycles" name="description">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta content="games/92115" name="itch:path">
+    <meta content="@itchio" name="twitter:site">
+    <meta content="We Become What We Behold by Nicky Case!" name="twitter:title">
+    <meta content="a game about news cycles, vicious cycles, infinite cycles. Play in your browser" name="twitter:description">
+    <meta content="summary_large_image" name="twitter:card">
+    <meta content="https://img.itch.zone/aW1hZ2UvOTIxMTUvNDU0MDMxLnBuZw==/508x254%23mb/iW6huj.png" property="twitter:image">
+    <meta content="@ncasenmare" property="twitter:creator">
+    <meta content="https://ncase.itch.io/wbwwb" name="twitter:url">
+    <script src="https://www.googletagmanager.com/gtag/js?id=G-36R7NPBMLS" async=""></script><script type="application/ld+json">
+        {
+            "itemListElement": [{
+                "@type": "ListItem",
+                "item": {
+                    "@id": "https:\/\/itch.io\/games",
+                    "name": "Games"
+                },
+                "position": 1
+            }, {
+                "@type": "ListItem",
+                "item": {
+                    "@id": "https:\/\/itch.io\/games\/free",
+                    "name": "Free"
+                },
+                "position": 2
+            }],
+            "@type": "BreadcrumbList",
+            "@context": "http:\/\/schema.org"
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@type": "Product",
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.8",
+                "ratingCount": 6670
+            },
+            "name": "We Become What We Behold",
+            "@context": "http:\/\/schema.org\/",
+            "description": "a game about news cycles, vicious cycles, infinite cycles"
+        }
+    </script>
+    <title>We Become What We Behold by Nicky Case!</title>
+    <meta name="csrf_token" value="WyJoNTRvIiwxNzQxMzU0MTUzLCJ0MGVlbzZ5SEk0anVBUnIiXQ==.7OOOcZZoNQPYaDltZjz7e3fVBT8=">
+    <link rel="stylesheet" href="https://static.itch.io/game.css?1740777856">
+    <script type="text/javascript">
+        window.itchio_translations_url = 'https://static.itch.io/translations';
+    </script>
+    <script type="text/javascript" src="https://static.itch.io/lib.min.js?1740777856"></script>
+    <script type="text/javascript" src="https://static.itch.io/bundle.min.js?1740777856"></script>
+    <script type="text/javascript" src="https://static.itch.io/lib/jquery.maskMoney.js"></script>
+    <script data-src="https://static.itch.io/react.min.js?1740777856" id="lib_react_src"></script>
+    <script type="text/javascript" src="https://static.itch.io/game.min.js?1740777856"></script>
+    <script type="text/javascript">
+        I.current_user = null;
+        I.subdomain = true;
+    </script>
+    <script type="text/javascript">
+        if (!window.location.hostname.match(/localhost/)) {
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', "G-36R7NPBMLS", {});
+            (function(d, t, s, m) {
+                s = d.createElement(t);
+                s.src = "https:\/\/www.googletagmanager.com\/gtag\/js?id=G-36R7NPBMLS";
+                s.async = 1;
+                m = d.getElementsByTagName(t)[0];
+                m.parentNode.insertBefore(s, m);
+            })(document, "script");
+        }
+    </script>
+    <style type="text/css" id="game_theme">
+        :root {
+            --itchio_ui_bg: #2c2c2c;
+            --itchio_ui_bg_dark: #252525
+        }
+
+        .wrapper {
+            --itchio_font_family: sans-serif;
+            --itchio_bg_color: #111111;
+            --itchio_bg2_color: rgba(34, 34, 34, 1);
+            --itchio_bg2_sub: #383838;
+            --itchio_text_color: #eeeeee;
+            --itchio_link_color: #fa5c5c;
+            --itchio_border_color: #484848;
+            --itchio_button_color: #fa5c5c;
+            --itchio_button_fg_color: #ffffff;
+            --itchio_button_shadow_color: #e54747;
+            background-color: #111111;
+            /*! */
+            /* */
+        }
+
+        .inner_column {
+            color: #eeeeee;
+            font-family: sans-serif, Lato, LatoExtended, sans-serif;
+            background-color: rgba(34, 34, 34, 1)
+        }
+
+        .inner_column ::selection {
+            color: #ffffff;
+            background: #fa5c5c
+        }
+
+        .inner_column ::-moz-selection {
+            color: #ffffff;
+            background: #fa5c5c
+        }
+
+        .inner_column h1,
+        .inner_column h2,
+        .inner_column h3,
+        .inner_column h4,
+        .inner_column h5,
+        .inner_column h6 {
+            font-family: inherit;
+            font-weight: bold;
+            color: inherit
+        }
+
+        .inner_column a,
+        .inner_column .footer a {
+            color: #fa5c5c
+        }
+
+        .inner_column .button,
+        .inner_column .button:hover,
+        .inner_column .button:active {
+            background-color: #fa5c5c;
+            color: #ffffff;
+            text-shadow: 0 1px 0px #e54747
+        }
+
+        .inner_column hr {
+            background-color: #484848
+        }
+
+        .inner_column table {
+            border-color: #484848
+        }
+
+        .inner_column .redactor-box .redactor-toolbar li a {
+            color: #fa5c5c
+        }
+
+        .inner_column .redactor-box .redactor-toolbar li a:hover,
+        .inner_column .redactor-box .redactor-toolbar li a:active,
+        .inner_column .redactor-box .redactor-toolbar li a.redactor-act {
+            background-color: #fa5c5c !important;
+            color: #ffffff !important;
+            text-shadow: 0 1px 0px #e54747 !important
+        }
+
+        .inner_column .redactor-box .redactor-toolbar .re-button-tooltip {
+            text-shadow: none
+        }
+
+        .game_frame {
+            background: #383838;
+            /*! */
+            /* */
+        }
+
+        .game_frame .embed_info {
+            background-color: rgba(34, 34, 34, 0.85)
+        }
+
+        .game_loading .loader_bar .loader_bar_slider {
+            background-color: #fa5c5c
+        }
+
+        .view_game_page .reward_row,
+        .view_game_page .bundle_row {
+            border-color: #383838 !important
+        }
+
+        .view_game_page .game_info_panel_widget {
+            background: rgba(56, 56, 56, 1)
+        }
+
+        .view_game_page .star_value .star_fill {
+            color: #fa5c5c
+        }
+
+        .view_game_page .rewards .quantity_input {
+            background: rgba(56, 56, 56, 1);
+            border-color: rgba(238, 238, 238, 0.5);
+            color: #eeeeee
+        }
+
+        .view_game_page .right_col {
+            display: none
+        }
+
+        .game_devlog_page li .meta_row .post_likes {
+            border-color: #383838
+        }
+
+        .game_devlog_post_page .post_like_button {
+            box-shadow: inset 0 0 0 1px #484848
+        }
+
+        .game_comments_widget .community_post .post_footer a,
+        .game_comments_widget .community_post .post_footer .vote_btn,
+        .game_comments_widget .community_post .post_header .post_date a,
+        .game_comments_widget .community_post .post_header .edit_message {
+            color: rgba(238, 238, 238, 0.5)
+        }
+
+        .game_comments_widget .community_post .reveal_full_post_btn {
+            background: linear-gradient(to bottom, transparent, #222222 50%, #222222);
+            color: #fa5c5c
+        }
+
+        .game_comments_widget .community_post .post_votes {
+            border-color: rgba(238, 238, 238, 0.2)
+        }
+
+        .game_comments_widget .community_post .post_votes .vote_btn:hover {
+            background: rgba(238, 238, 238, 0.05)
+        }
+
+        .game_comments_widget .community_post .post_footer .vote_btn {
+            border-color: rgba(238, 238, 238, 0.5)
+        }
+
+        .game_comments_widget .community_post .post_footer .vote_btn span {
+            color: inherit
+        }
+
+        .game_comments_widget .community_post .post_footer .vote_btn:hover,
+        .game_comments_widget .community_post .post_footer .vote_btn.voted {
+            background-color: #fa5c5c;
+            color: #ffffff;
+            text-shadow: 0 1px 0px #e54747;
+            border-color: #fa5c5c
+        }
+
+        .game_comments_widget .form .redactor-box,
+        .game_comments_widget .form .click_input,
+        .game_comments_widget .form .forms_markdown_input_widget {
+            border-color: rgba(238, 238, 238, 0.5);
+            background: transparent
+        }
+
+        .game_comments_widget .form .redactor-layer,
+        .game_comments_widget .form .redactor-toolbar,
+        .game_comments_widget .form .click_input,
+        .game_comments_widget .form .forms_markdown_input_widget {
+            background: rgba(56, 56, 56, 1)
+        }
+
+        .game_comments_widget .form .forms_markdown_input_widget .markdown_toolbar button {
+            color: inherit;
+            opacity: 0.6
+        }
+
+        .game_comments_widget .form .forms_markdown_input_widget .markdown_toolbar button:hover,
+        .game_comments_widget .form .forms_markdown_input_widget .markdown_toolbar button:active {
+            opacity: 1;
+            background-color: #fa5c5c !important;
+            color: #ffffff !important;
+            text-shadow: 0 1px 0px #e54747 !important
+        }
+
+        .game_comments_widget .form .forms_markdown_input_widget .markdown_toolbar,
+        .game_comments_widget .form .forms_markdown_input_widget li {
+            border-color: rgba(238, 238, 238, 0.5)
+        }
+
+        .game_comments_widget .form textarea {
+            border-color: rgba(238, 238, 238, 0.5);
+            background: rgba(56, 56, 56, 1);
+            color: inherit
+        }
+
+        .game_comments_widget .form .redactor-toolbar {
+            border-color: rgba(238, 238, 238, 0.5)
+        }
+
+        .game_comments_widget .hint {
+            color: rgba(238, 238, 238, 0.5)
+        }
+
+        .game_community_preview_widget .community_topic_row .topic_tag {
+            background-color: #383838
+        }
+
+        .footer .svgicon,
+        .view_game_page .more_information_toggle .svgicon {
+            fill: #eeeeee !important
+        }
+    </style>
+</head>
+
+
+    <div class="main wrapper" id="wrapper">
+        <div class="inner_column size_large family_sans-serif" id="inner_column" style="min-height: 273px; width: 960px; max-width: 960px;">
+            <div class="header" id="header">
+                <h1 class="game_title" itemprop="name">We Become What We Behold</h1>
+            </div>
+            <div class="view_html_game_page view_game_page page_widget base_widget ready" id="view_html_game_2305646">
+                <div class="html_embed_widget base_widget embed_wrapper" id="html_embed_1540767">
+                    <div class="game_frame game_loaded" style="width: 960px; height: 540px" data-width="960" data-height="540"><iframe id="game_drop" frameborder="0" allowfullscreen="true" scrolling="no" allow="autoplay; fullscreen *; geolocation; microphone; camera; midi; monetization; xr-spatial-tracking; gamepad; gyroscope; accelerometer; xr; cross-origin-isolated; web-share" allowtransparency="true" webkitallowfullscreen="true" mozallowfullscreen="true" msallowfullscreen="true" src="https://html-classic.itch.zone/html/300364/index.html?v=1542781840"></iframe></div>
+                </div>
