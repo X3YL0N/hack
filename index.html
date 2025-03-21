@@ -1,2 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encoder/Decoder</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.11/pako.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <meta name="theme-color" content="#ff0000">
+    <link rel="icon" href="https://i.ibb.co/90PBPRC/Picsart-25-03-20-19-19-56-229.png" type="image/png">
+    <style>
+        body {
+            background-color: black;
+            color: red;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            padding: 7px;
+        }
+        .circle-img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            margin: 0px;
+            display: block;
+            border: 2px black;
+        }
+        h1, h2 {
+            text-align: center;
+            background-color: black;
+            animation: colorChangedev 15s infinite;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 20px;
+        }
+        h3 {
+            text-align: center;
+            background-color: black;
+            animation: colorChangedev 2s infinite;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 15px;
+        }
+        AX {
+            color: red;
+            margin: 10px 0;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 30px;
+        }
+        textarea {
+            width: 100%;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: cyan;
+            background-color: black;
+            border: 2px solid #ff0000;
+            border-radius: 5px;
+            border-color: red;
+            padding: 10px;
+        }
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 0px;
+        }
+        .input-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0px;
+        }
+        .input-actions button {
+            padding: 1px 50px;
+            font-size: 14px;
+            color: cyan;
+            background-color: black;
+            border: 1.5px solid #ff0000;
+            border-radius: 5px;
+            border-color: red;
+            cursor: pointer;
+            width: 32%;
+        }
+        .input-actions button:hover {
+            background-color: cyan;
+            border-color: red;
+            color: red;
+        }
+        .ENC-DEC-BOX {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0px;
+        }
+        .ENC-DEC-BOX button {
+            padding: 4.5px 76.5px;
+            font-size: 15px;
+            color: lime;
+            background-color: black;
+            border: 1.5px solid #ff0000;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 49%;
+        }
+        .ENC-DEC-BOX button:hover {
+            background-color: lime;
+            color: red;
+        }
+        .result-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1px;
+        }
+        .result-actions button {
+            padding: 1px 83px;
+            font-size: 15px;
+            color: yellow;
+            background-color: black;
+            border: 1.5px solid #ff0000;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 49%;
+        }
+        .result-actions button:hover {
+            background-color: yellow;
+            color: red;
+        }
+        .output-box {
+            background-color: black;
+            color: yellow;
+            padding: 10px;
+            border: 2px solid #ff0000;
+            border-radius: 5px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            width: 94%;
+            max-width: 500px;
+            margin-bottom: 0px;
+        }
+        button {
+            padding: 5px 10px;
+            font-size: 15px;
+            color: #fff;
+            background-color: black;
+            border: 1.5px solid #ff0000;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 5px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #ff0000;
+        }
+        .horizontal-line {
+            height: 1px;
+            width: 100vw;
+            margin: 40px;
+            background-color: black;
+            animation: colorChange 1.3s infinite;
+        }
+        span {
+            transition: color 0.9s ease-in-out;
+        }
+@media (max-width: 600px) {
+            .input-container {
+                width: 100%;
+            }
+            button {
+                width: 100%;
+            }
+        }
+@keyframes colorChange {
+            5% {
+                background-color: black;
+            }
+            25% {
+                background-color: red;
+            }
+            45% {
+                background-color: orange;
+            }
+            65% {
+                background-color: lime;
+            }
+            85% {
+                background-color: cyan;
+            }
+            100% {
+                background-color: black;
+            }
+        }
+@keyframes colorChangedev {
+            5% {
+                color: orange;
+            }
+            15% {
+                color: lime;
+            }
+            25% {
+                color: yellow;
+            }
+            35% {
+                color: red;
+            }
+            45% {
+                color: cyan;
+            }
+            55% {
+                color: purple;
+            }
+            65% {
+                color: blue;
+            }
+            75% {
+                color: white;
+            }
+            85% {
+                color: violet;
+            }
+            95% {
+                color: teal;
+            }
+        }
+
+    </style>
+</head>
 <script>
-document.write(unescape('%3C%21%2D%2D%20%4F%62%66%75%73%63%61%74%65%64%20%61%74%20%32%30%32%35%2D%30%32%2D%32%37%20%30%36%3A%32%30%3A%33%37%20%6F%6E%20%68%74%74%70%73%3A%2F%2F%77%77%77%2E%70%68%70%6B%6F%62%6F%2E%63%6F%6D%2F%68%74%6D%6C%2D%6F%62%66%75%73%63%61%74%6F%72%20%2D%2D%3E%3C%73%63%72%69%70%74%3E%3B%46%75%6E%63%74%69%6F%6E%28%22%27%35%40%23%32%61%6D%7E%31%2A%75%6B%61%65%6E%37%74%5F%2E%73%7A%33%33%6A%35%36%76%7E%37%5E%2E%71%7B%5E%38%7B%37%6E%77%38%65%79%6C%2B%2C%32%2E%31%67%6F%63%5B%7E%33%5D%74%36%7D%34%72%65%2E%68%7D%61%66%74%2C%25%5F%78%66%40%25%39%5F%73%31%5D%79%63%32%2B%65%5F%32%6C%6E%67%63%21%75%35%33%78%38%68%2A%72%7B%7B%40%2A%68%6C%72%6F%7A%6D%61%2B%6F%71%6B%63%2D%39%6E%2E%2E%63%2C%38%7A%65%7A%6D%68%2A%78%2C%63%65%2C%5B%65%38%65%37%76%39%34%5D%23%78%7E%5F%39%35%37%6D%6F%32%6F%61%6B%70%33%32%69%79%6E%7E%69%79%75%5F%25%6B%7B%21%73%36%6E%2B%72%6C%7D%2B%7D%7B%33%6F%5D%71%5E%76%31%71%71%75%23%6D%73%21%77%66%34%67%69%75%76%74%37%26%6F%73%75%63%39%70%2C%6D%40%38%25%36%32%79%71%76%78%6C%71%67%79%6E%39%7E%66%37%31%2A%72%61%6B%2E%70%5D%2D%73%65%2B%63%21%6E%72%31%65%34%5D%78%5E%71%26%40%21%69%73%66%77%61%65%6F%68%61%40%36%23%76%2C%31%35%65%7B%34%38%6D%6A%67%70%26%73%6D%69%6A%5E%2A%5F%63%72%36%7B%69%74%7A%21%7D%35%72%5D%2C%63%6C%5D%40%2D%5B%25%76%68%2E%34%5E%39%69%6B%69%70%5E%2A%25%79%73%35%7E%70%2A%6C%2D%79%65%36%2B%21%6C%7A%75%61%21%68%78%35%38%2D%23%67%5B%37%21%25%6C%32%5D%67%76%2C%2B%32%6B%65%23%2A%5F%35%7D%2D%71%25%7E%78%65%7D%6F%66%7D%6B%6A%26%76%74%70%66%34%6F%37%5E%77%6C%2C%23%7E%66%2E%36%5B%33%6D%36%21%70%67%7B%2D%7E%77%2E%39%2D%70%68%6D%39%7D%77%77%79%23%74%40%6E%5B%72%6B%6A%6A%6A%26%61%2B%2D%69%74%68%34%67%5B%67%75%5F%77%37%32%76%70%2D%34%65%26%23%26%33%74%35%77%2A%7A%65%5F%78%79%72%31%38%5E%26%77%73%2B%6A%31%25%68%65%25%66%5B%33%7A%7A%7D%7B%36%26%5D%40%65%34%23%75%6E%33%5B%5B%65%38%69%39%6A%6A%66%26%71%78%75%31%7A%40%74%5E%6B%27%3B%5F%41%35%30%48%33%35%6D%4C%31%32%71%6B%39%39%65%57%6A%4D%31%32%53%51%30%34%39%58%31%52%34%65%6A%70%66%6F%3D%28%5F%41%35%30%48%33%35%6D%4C%31%32%71%6B%39%39%65%57%6A%4D%31%32%53%51%30%34%39%58%31%52%34%65%6A%65%6C%65%63%74%29%3D%3E%21%5F%41%35%30%48%33%35%6D%4C%31%32%71%6B%39%39%65%57%6A%4D%31%32%53%51%30%34%39%58%31%52%34%65%6A%65%6C%65%63%74%3F%5C%22%30%51%73%75%70%63%56%6E%6C%56%69%63%74%6D%65%46%5C%22%5B%5F%51%54%57%37%76%30%37%45%37%4F%38%38%71%39%68%33%34%6C%62%38%73%39%39%35%47%6B%79%70%31%71%55%6B%30%63%31%42%33%65%37%35%42%7A%28%29%5D%28%2F%5B%6E%6D%56%63%30%65%46%75%51%5D%2F%67%2C%5C%22%5C%22%29%3A%28%5F%41%35%30%48%33%35%6D%4C%31%32%71%6B%39%39%65%57%6A%4D%31%32%53%51%30%34%39%58%31%52%34%65%6A%65%6C%65%63%74%3D%3D%31%3F%5C%22%4A%56%66%70%6F%6D%77%72%77%76%45%56%58%61%78%36%63%34%31%6D%68%70%5C%22%5B%5F%51%54%57%37%76%30%37%45%37%4F%38%38%71%39%68%33%34%6C%62%38%73%39%39%35%47%6B%79%70%31%71%55%6B%30%63%31%42%33%65%37%35%42%7A%28%29%5D%28%2F%5B%77%78%70%6D%31%76%36%58%34%56%4A%5D%2F%67%2C%5C%22%5C%22%29%3A%5C%22%5A%72%46%53%4D%73%75%4A%6E%70%67%63%30%35%34%74%55%69%6A%6F%49%4D%6E%55%59%67%5C%22%5B%5F%51%54%57%37%76%30%37%45%37%4F%38%38%71%39%68%33%34%6C%62%38%73%39%39%35%47%6B%79%70%31%71%55%6B%30%63%31%42%33%65%37%35%42%7A%28%29%5D%28%2F%5B%59%34%5A%6A%73%4D%67%35%53%70%72%30%49%55%4A%5D%2F%67%2C%5C%22%5C%22%29%29%3B%5F%51%54%57%37%76%30%37%45%37%4F%38%38%71%39%68%33%34%6C%62%38%73%39%39%35%47%6B%79%70%31%71%55%6B%30%63%31%42%33%65%37%35%42%7A%3D%28%29%3D%3E%5C%22%5C%5C%31%36%32%5C%5C%31%34%35%5C%5C%31%36%30%5C%5C%31%35%34%5C%5C%31%34%31%5C%5C%31%34%33%5C%5C%31%34%35%5C%22%3B%28%5F%46%51%52%54%52%38%73%30%31%34%73%6C%34%62%59%4C%36%7A%4E%55%30%57%71%31%30%42%3D%3E%5C%22%5F%43%36%75%34%54%36%63%6A%36%62%39%2E%5F%58%5A%51%68%71%72%68%32%58%32%43%4C%7A%4B%64%52%50%54%39%6E%45%47%31%54%64%32%42%33%31%34%34%35%74%79%4B%6B%54%4A%61%32%33%45%74%55%3D%5C%5C%5C%22%43%5A%5A%42%52%4A%4C%59%4A%45%48%48%52%49%51%5A%43%57%56%44%4B%42%47%4D%51%45%43%4C%4B%46%52%5A%56%41%5A%55%55%59%4C%53%47%49%44%53%5A%49%57%4A%48%53%4B%56%59%5A%4C%42%4F%55%5A%46%4C%43%50%5C%5C%5C%22%B%28%66%75%6E%63%74%69%6F%6E%28%5F%43%53%67%57%32%68%34%30%38%4A%45%38%72%73%78%39%68%34%78%5A%32%71%51%36%41%63%77%74%30%53%6D%73%53%37%49%56%7A%42%32%43%37%31%4C%6B%4D%4C%6E%4D%2C%5F%51%54%57%37%76%30%37%45%37%4F%38%38%71%39%68%33%34%6C%62%38%73%39%39%35%47%6B%79%70%31%71%55%6B%30%63%31%42%33%65%37%35%42%7A%2C%5F%4C%43%35%77%34%7A%71%35%38%46%31%52%34%67%47%6A%37%76%79%4B%6D%38%67%37%34%45%42%6D%77%73%2C%5F%4A%36%79%52%35%31%31%5A%33%44%59%42%66%42%52%34%31%29%7B%5F%43%53%67%57%32%68%34%30%38%4A%45%38%72%73%78%39%68%34%78%5A%32%71%51%36%41%63%77%74%30%53%6D%73%53%37%49%56%7A%42%32%43%37%31%4C%6B%4D%4C%6E%4D%3D%74%68%69%73%3B%5F%51%54%57%37%76%30%37%45%37%4F%38%38%71%39%68%33%34%6C%62%38%73%39%39%35%47%6B%79%70%31%71%55%6B%30%63%31%42%33%65%37%35%42%7A%3D%5C%5C%5C%22%5C%5C%5C%5C%31%36%32%5C%5C%5C%5C%31%34%35%5C%5C%5C%5C%31%36%30%5C%5C%5C%5C%31%35%34%5C%5C%5C%5C%31%34%31%5C%5C%5C%5C%31%34%33%5C%5C%5C%5C%31%34%35%5C%5C%5C%22%3B%5F%24%3D%7B%7D%3B%5C%5C%5C%22%5F%42%6D%76%59%32%35%43%58%39%63%37%4D%78%4B%39%36%72%4B%51%68%30%50%35%49%37%35%4C%43%6E%35%32%61%4A%72%50%5A%32%33%6F%32%76%6D%68%76%70%50%53%42%6D%E%41%45%77%70%73%68%72%31%46%65%31%34%76%36%33%65%52%4B%43%6E%4E%74%33%46%44%51%65%33%5A%66%57%37%61%69%4C%55%75%30%6C%6F%51%74%59%4B%D%36%57%33%68%6F%69%51%4C%30%4B%31%55%52%77%73%34%41%5A%59%45%4E%46%43%37%F%5F%57%63%55%35%37%E%4A%61%77%48%42%64%52%4B%51%64%32%42%57%45%6A%39%43%76%32%65%63%6E%43%37%74%42%54%6F%4C%34%46%35%69%70%73%59%32%4A%74%75%65%43%41%46%6E%34%31%79%65%6F%41%47%72%67%57%42%D%54%52%67%41%46%57%31%47%6A%59%51%4A%75%42%35%70%37%39%77%48%43%63%79%4B%6F%32%34%F%5F%4E%74%56%38%41%4B%69%35%4B%4D%74%35%42%7A%45%33%36%31%71%74%43%52%35%38%69%30%4D%34%E%56%65%52%38%38%72%46%48%31%72%32%4B%59%6F%48%4C%35%72%47%41%D%52%4C%41%59%38%35%48%4B%47%31%56%46%32%F%5F%4F%5A%43%64%39%6D%39%6E%46%49%36%68%31%7A%68%4A%48%5A%49%55%E%49%72%38%52%57%65%6A%77%6D%42%54%6F%47%59%47%76%64%54%65%46%45%66%47%32%76%71%65%67%68%6E%57%51%74%4B%39%55%4C%6C%4B%69%59%73%56%55%74%59%6B%78%65%66%6E%78%77%65%30%34%30%72%37%75%D%39%64%56%55%38%54%57%78%71%42%32%4B%66%59%6A%51%52%47%34%37%68%6B%67%77%46%6C%75%30%49%F%5F%58%41%75%5A%57%50%4D%38%61%38%6E%56%42%35%71%72%6C%4E%38%57%55%46%55%5A%7A%72%35%4C%45%47%6B%64%4A%73%E%71%65%68%72%57%58%36%72%57%34%38%6F%38%4C%72%45%54%71%D%38%71%45%68%36%4C%57%34%54%58%5C%5C%5C%22%5B%5C%5C%5C%22%39%46%73%76%49%70%68%6C%4B%46%69%65%50%37%74%32%5A%5C%5C%5C%22%5B%5F%51%54%57%37%76%30%37%45%37%4F%38%38%71%39%68%33%34%6C%62%38%73%39%39%35%47%6B%79%70%31%71%55%6B%30%63%31%42%33%65%37%35%42%7A%5D%28%2F%5B%46%50%68%76%39%5A%4B%37%49%32%65%5D%2F%67%2C%5C%5C%5C%22%5C%5C%5C%22%29%5D%28%5C%5C%5C%22%F%5C%5C%5C%22%29%5B%5C%5C%5C%22%36%4E%66%64%5A%65%6F%49%64%72%55%45%62%31%61%43%69%63%32%51%53%68%56%4B%4B%5C%5C%5C%22%5B%5F%51%54%57%37%76%30%37%45%37%4F%38%38%71%39%68%33%34%6C%62%38%73%39%39%35%47%6B%79%70%31%71%55%6B%30%63%31%42%33%65%37%35%42%7A%5D%28%2F%5B%49%62%5A%51%65%43%64%4B%4E%69%56%53%55%31%36%32%5D%2F%67%2C%5C%5C%5C%22%5C%5C%5C%22%29%5D%28%28%5F%4D%34%34%37%34%64%4C%31%74%65%6D%2C%5F%56%34%30%53%4A%41%34%37%37%61%38%36%43%75%53%49%4B%4B%6A%53%35%73%61%72%36%29%3D%3E%7B%5F%56%34%30%53%4A%41%34%37%37%61%38%36%43%75%53%49%4B%4B%6A%53%35%73%61%72%36%3D%5F%4D%34%34%37%34%64%4C%31%74%65%6D%5B%5C%5C%5C%22%39%46%73%76%49%70%68%6C%4B%46%69%65%50%37%74%32%5A%5C%5C%5C%22%5B%5F%51%54%57%37%76%30%37%45%37%4F%38%38%71%39%68%33%34%6C%62%38%73%39%39%35%47%6B%79%70%31%71%55%6B%30%63%31%42%33%65%37%35%42%7A%5D%28%2F%5B%46%50%68%76%39%5A%4B%37%49%32%65%5D%2F%67%2C%5C%5C%5C%22%5C%5C%5C%22%29%5D%28%5C%5C%5C%22%E%5C%5C%5C%22%29%3B%5F%56%37%37%75%30%57%39%35%63%68%4E%32%73%36%43%32%56%55%4A%38%34%43%57%39%53%3D%5F%56%34%30%53%4A%41%34%37%37%61%38%36%43%75%53%49%4B%4B%6A%53%35%73%61%72%36%5B%31%5D%5B%5C%5C%5C%22%39%46%73%76%49%70%68%6C%4B%46%69%65%50%37%74%32%5A%5C%5C%5C%22%5B%5F%51%54%57%37%76%30%37%45%37%4F%38%38%71%39%68%33%34%6C%62%38%73%39%39%35%47%6B%79%70%31%71%55%6B%30%63%31%42%33%65%37%35%42%7A%5D%28%2F%5B%46%50%68%76%39%5A%4B%37%49%32%65%5D%2F%67%2C%5C%5C%5C%22%5C%5C%5C%22%29%5D%28%5C%5C%5C%22%D%5C%5C%5C%22%29%3B%5F%24%5B%5F%56%34%30%53%4A%41%34%37%37%61%38%36%43%75%53%49%4B%4B%6A%53%35%73%61%72%36%5B%30%5D%5D%3D%5F%56%37%37%75%30%57%39%35%63%68%4E%32%73%36%43%32%56%55%4A%38%34%43%57%39%53%5B%30%5D%5B%5F%51%54%57%37%76%30%37%45%37%4F%38%38%71%39%68%33%34%6C%62%38%73%39%39%35%47%6B%79%70%31%71%55%6B%30%63%31%42%33%65%37%35%42%7A%5D%28%6E%65%77%20%5F%43%53%67%57%32%68%34%30%38%4A%45%38%72%73%78%39%68%34%78%5A%32%71%51%36%41%63%77%74%30%53%6D%73%53%37%49%56%7A%42%32%43%37%31%4C%6B%4D%4C%6E%4D%5B%5C%5C%5C%22%51%52%6C%61%65%57%6B%39%67%77%45%6F%32%7A%78%66%79%33%70%48%75%5C%5C%5C%22%5B%5F%51%54%57%37%76%30%37%45%37%4F%38%38%71%39%68%33%34%6C%62%38%73%39%39%35%47%6B%79%70%31%71%55%6B%30%63%31%42%33%65%37%35%42%7A%5D%28%2F%5B%39%75%6C%6B%57%48%32%77%61%51%66%33%6F%7A%79%5D%2F%67%2C%5C%5C%5C%22%5C%5C%5C%22%29%5D%28%5C%5C%5C%22%5B%5C%5C%5C%22%2B%5F%56%37%37%75%30%57%39%35%63%68%4E%32%73%36%43%32%56%55%4A%38%34%43%57%39%53%5B%31%5D%2B%5C%5C%5C%22%5D%5C%5C%5C%22%2C%5C%5C%5C%22%67%5C%5C%5C%22%29%2C%5C%5C%5C%22%5C%5C%5C%22%29%3B%7D%29%3B%5F%4C%43%35%77%34%7A%71%35%38%46%31%52%34%67%47%6A%37%76%79%4B%6D%38%67%37%34%45%42%6D%77%73%3D%28%5F%4A%36%79%52%35%31%31%5A%33%44%59%42%66%42%52%34%31%29%3D%3E%7B%5F%4A%36%79%52%35%31%31%5A%33%44%59%42%66%42%52%34%31%5B%5F%24%2E%5F%42%6D%76%59%32%35%43%58%39%63%37%4D%78%4B%39%36%72%4B%51%68%30%50%35%49%37%35%4C%43%6E%35%32%61%4A%72%50%5A%32%33%6F%32%76%6D%68%76%70%50%53%42%6D%5D%28%29%3B%5F%43%36%75%34%54%36%63%6A%36%62%39%5B%27%30%27%5D%28%29%3B%7D%3B%5F%43%53%67%57%32%68%34%30%38%4A%45%38%72%73%78%39%68%34%78%5A%32%71%51%36%41%63%77%74%30%53%6D%73%53%37%49%56%7A%42%32%43%37%31%4C%6B%4D%4C%6E%4D%5B%5F%24%2E%5F%57%63%55%35%37%5D%28%5F%24%2E%5F%4E%74%56%38%41%4B%69%35%4B%4D%74%35%42%7A%45%33%36%31%71%74%43%52%35%38%69%30%4D%34%2C%5F%4C%43%35%77%34%7A%71%35%38%46%31%52%34%67%47%6A%37%76%79%4B%6D%38%67%37%34%45%42%6D%77%73%29%3B%5F%43%36%75%34%54%36%63%6A%36%62%39%5B%27%30%27%5D%3D%28%29%3D%3E%7B%5F%43%53%67%57%32%68%34%30%38%4A%45%38%72%73%78%39%68%34%78%5A%32%71%51%36%41%63%77%74%30%53%6D%73%53%37%49%56%7A%42%32%43%37%31%4C%6B%4D%4C%6E%4D%5B%5F%24%2E%5F%4F%5A%43%64%39%6D%39%6E%46%49%36%68%31%7A%68%4A%48%5A%49%55%5D%28%5F%24%2E%5F%58%41%75%5A%57%50%4D%38%61%38%6E%56%42%35%71%72%6C%4E%38%57%55%46%55%5A%7A%72%35%4C%45%47%6B%64%4A%73%2C%5F%4C%43%35%77%34%7A%71%35%38%46%31%52%34%67%47%6A%37%76%79%4B%6D%38%67%37%34%45%42%6D%77%73%29%3B%7D%3B%7D%29%28%29%3B%B%5F%43%36%75%34%54%36%63%6A%36%62%39%2E%5F%5A%52%48%66%4A%67%6A%44%34%72%55%49%38%39%48%39%51%79%63%37%62%4B%38%78%47%3D%5C%5C%5C%22%59%33%33%36%39%39%65%39%33%66%34%41%65%64%33%39%39%64%65%64%31%61%35%36%46%30%35%30%35%59%43%58%32%33%61%36%46%41%34%44%61%37%44%38%66%62%35%32%41%39%31%36%36%44%43%34%31%59%38%65%31%36%36%35%63%62%7C%46%32%35%62%66%31%62%36%59%44%33%32%62%37%34%44%41%46%41%33%36%63%30%31%36%35%66%39%44%66%66%34%30%62%33%64%36%34%33%39%61%66%31%34%38%62%62%34%33%39%32%66%38%33%43%35%32%66%37%34%31%61%34%46%33%32%32%35%65%2B%39%35%33%61%36%26%66%35%46%59%35%21%66%36%38%36%64%63%32%35%43%62%66%31%35%37%32%62%61%31%61%37%37%39%37%64%33%37%46%43%38%31%41%38%31%43%43%66%38%37%36%43%58%33%36%38%30%64%31%32%61%34%39%58%41%33%33%38%35%58%43%33%37%35%32%39%44%33%44%39%39%58%59%34%64%39%39%65%38%34%41%36%32%66%66%34%36%39%62%46%44%34%44%37%63%63%37%31%62%37%34%59%44%33%30%35%33%43%30%31%37%36%58%63%35%33%38%63%37%31%33%37%35%43%34%31%34%34%34%41%31%66%38%35%41%62%35%64%39%36%33%61%63%31%30%36%59%59%31%31%35%35%36%61%30%33%43%38%38%58%41%33%39%38%39%62%39%64%63%34%39%41%30%66%37%34%65%63%31%34%38%39%63%66%38%34%43%35%38%47%31%34%59%41%39%64%31%49%64%59%35%40%31%35%46%62%39%31%32%35%38%43%31%31%37%31%61%62%61%25%59%36%65%63%34%43%46%32%34%43%33%32%34%36%65%43%36%66%34%33%30%63%64%33%30%38%37%44%41%33%34%35%32%39%58%66%35%38%36%41%32%33%34%38%34%44%59%66%65%38%61%58%44%29%34%38%36%46%44%32%36%37%44%43%30%33%31%62%30%46%37%31%33%41%31%29%31%35%62%61%37%52%36%36%32%37%32%3B%63%35%34%59%44%31%34%36%46%59%58%31%38%36%31%38%31%64%63%33%36%38%37%32%30%37%35%63%35%64%37%32%43%39%32%66%38%33%31%38%38%63%39%33%36%38%64%58%34%33%62%61%65%33%35%38%39%65%35%33%39%34%35%65%34%34%35%38%46%65%37%31%35%35%31%58%58%35%31%61%38%66%62%35%35%37%33%59%46%31%36%61%34%4A%34%35%61%59%37%25%64%31%46%61%66%25%58%36%35%62%34%31%30%36%30%59%33%31%39%36%39%43%41%64%63%36%38%43%59%32%30%33%39%43%34%32%59%38%32%39%38%66%63%37%41%63%63%32%46%38%32%64%63%34%30%35%62%63%37%33%59%38%35%65%39%34%35%39%37%62%39%34%64%39%34%58%43%34%46%37%32%59%44%31%30%36%37%63%39%31%63%36%43%43%33%31%30%61%32%4E%35%35%46%38%31%50%33%35%35%59%38%56%62%36%35%43%39%65%34%34%31%63%34%32%31%37%35%63%33%31%36%37%41%38%61%57%36%37%46%43%44%32%38%37%37%41%33%33%37%37%65%44%36%33%39%35%63%61%37%66%61%35%31%59%33%55%36%35%36%61%64%66%61%38%43%58%46%34%39%36%59%65%64%33%46%61%32%46%35%34%46%59%33%43%58%33%38%62%31%66%62%36%30%62%37%43%36%34%35%59%44%25%31%36%39%43%32%64%30%32%58%41%33%64%30%36%32%43%35%31%46%34%31%63%31%31%44%37%58%44%32%32%35%37%31%65%30%66%62%38%38%58%33%32%34%38%41%39%33%65%38%39%31%44%59%33%39%36%31%39%64%34%35%39%64%46%39%34%33%39%33%66%38%34%34%39%38%58%46%35%35%35%41%43%44%46%30%35%44%62%34%3F%59%36%32%64%35%36%33%62%62%31%37%36%31%59%31%65%31%50%34%37%31%63%38%31%66%37%36%63%64%32%34%37%59%64%32%31%33%38%30%44%37%32%65%38%35%44%43%33%33%38%41%65%31%37%61%64%65%32%41%39%36%39%34%34%36%32%63%39%39%66%30%34%37%39%65%66%35%34%63%61%33%46%41%35%31%41%38%46%46%35%36%66%33%35%33%61%39%21%36%31%36%61%36%66%38%35%59%41%58%2E%38%36%63%38%34%43%31%31%46%39%32%31%35%37%32%43%36%31%34%36%37%43%59%44%30%35%37%64%30%31%58%37%39%43%38%65%31%33%64%38%38%32%43%38%35%64%62%33%33%38%65%58%32%32%41%38%33%64%63%51%39%34%35%38%36%66%33%34%61%41%31%66%38%34%66%41%36%46%44%35%34%41%59%3A%32%35%39%59%30%34%39%39%46%66%38%35%37%61%61%50%43%36%30%62%64%52%64%35%41%37%41%7C%37%36%41%59%58%31%38%37%32%39%31%63%65%32%38%38%63%31%36%33%61%63%34%58%38%37%32%41%31%64%64%31%58%38%59%65%32%33%39%39%30%58%37%33%58%39%35%58%43%34%33%39%61%46%31%34%38%58%32%34%35%39%39%66%33%34%44%36%63%41%39%48%33%36%37%59%58%34%62%41%32%43%33%31%41%37%63%62%38%46%39%36%36%62%64%31%34%36%62%43%32%31%39%37%30%63%37%31%65%37%35%63%63%32%33%63%37%31%32%37%41%43%36%31%66%37%59%39%65%64%62%34%32%61%34%43%41%33%37%38%65%65%35%33%43%39%33%65%61%34%31%39%38%65%66%34%36%39%64%46%34%39%59%65%33%33%44%39%34%46%30%34%43%39%43%63%36%52%33%36%61%63%63%66%32%35%66%59%36%2D%44%36%34%62%62%31%32%36%39%43%30%31%37%36%58%43%35%31%43%43%37%3B%46%37%39%63%63%64%63%36%37%63%39%31%44%37%32%44%30%66%33%33%30%63%61%32%33%38%33%58%30%32%38%38%43%41%43%64%32%33%66%39%36%58%44%34%34%39%62%46%32%34%39%61%30%66%37%34%65%41%35%46%43%41%32%5E%30%34%36%61%61%46%35%35%32%61%63%23%59%31%38%59%41%44%33%31%30%61%66%4D%37%35%39%59%30%52%38%36%38%38%43%62%32%31%46%37%36%63%64%32%34%37%59%44%32%32%39%38%30%33%34%31%38%36%66%44%43%33%33%38%61%65%31%33%38%38%66%58%36%32%37%39%34%65%62%34%32%39%39%46%30%34%37%39%65%46%35%36%43%65%65%33%66%41%41%58%58%35%31%39%37%66%61%34%39%61%65%62%32%34%66%61%39%5E%39%35%33%36%35%31%37%66%64%36%41%43%31%31%38%36%46%63%36%31%64%37%34%43%59%32%32%37%39%44%30%32%37%38%58%64%61%32%63%44%58%64%61%38%35%64%61%32%30%38%34%65%30%32%41%38%41%58%34%33%36%35%61%39%37%34%32%39%37%44%44%34%31%39%44%58%44%33%39%41%33%65%62%33%36%35%63%62%62%5F%62%37%34%59%30%36%34%34%38%62%35%2D%43%36%33%59%41%31%31%36%38%59%46%31%36%36%44%43%34%31%62%37%32%64%65%33%30%37%63%43%58%38%30%37%43%32%37%37%43%43%32%32%36%38%32%63%63%32%63%38%36%64%38%46%43%33%39%65%34%33%39%37%66%58%33%33%66%38%46%64%62%34%35%38%44%64%38%66%65%35%61%59%35%26%62%61%32%3D%31%5F%39%37%32%61%65%36%32%34%36%62%33%55%41%36%31%62%38%3F%46%36%36%62%64%31%34%36%62%43%32%31%39%37%30%64%38%32%65%38%35%44%31%32%33%64%35%44%31%37%63%44%31%31%37%37%62%64%37%32%31%38%31%44%59%32%44%35%31%38%58%33%39%38%58%44%34%33%38%39%34%65%34%33%30%39%61%58%32%32%44%35%33%62%32%7B%32%36%59%61%37%35%62%33%46%41%43%4C%33%35%61%59%31%5F%38%35%66%62%36%4D%64%43%31%41%35%46%43%36%39%43%30%31%37%36%65%43%35%31%63%37%33%43%41%47%59%37%38%63%66%32%36%37%44%44%34%32%62%38%32%64%39%35%30%44%32%32%33%38%58%64%32%33%35%37%62%64%65%32%64%39%32%39%36%34%34%38%35%65%64%34%30%39%32%65%65%33%58%34%58%2B%30%58%36%35%33%41%41%52%31%35%38%61%66%50%36%35%64%62%34%57%62%36%32%62%39%31%30%37%37%63%33%31%35%63%37%43%33%36%58%43%33%2D%39%36%64%63%39%31%33%37%33%43%44%31%46%34%33%38%30%32%41%37%31%43%36%32%38%37%38%39%32%66%32%34%31%61%61%58%36%39%61%37%65%65%62%34%32%39%39%46%30%34%37%39%58%46%35%34%63%61%33%66%61%35%31%61%38%31%34%36%36%59%32%48%34%59%36%59%32%35%64%62%32%66%38%35%43%59%38%3D%32%36%32%62%63%50%65%33%32%36%66%31%39%36%30%59%35%31%37%36%37%38%31%65%31%33%35%38%58%58%41%33%35%39%58%64%61%38%58%37%32%64%66%33%36%38%64%65%34%33%59%39%32%65%39%34%30%39%37%65%65%34%35%39%63%29%34%35%41%62%31%66%64%34%46%55%31%66%64%41%38%46%44%34%33%61%37%55%33%34%64%41%44%28%37%35%39%37%64%62%61%36%34%61%62%3D%30%36%32%62%32%43%43%32%63%37%62%65%34%32%30%44%34%59%38%32%35%37%63%64%33%32%41%38%31%64%38%32%46%38%36%33%41%31%65%37%35%65%32%33%39%39%30%58%37%33%65%39%35%58%43%34%33%38%34%66%31%34%38%39%46%46%36%34%44%61%34%46%59%35%32%46%31%31%31%35%37%3A%39%58%46%35%63%62%33%4B%61%36%31%62%38%29%46%36%36%59%44%31%34%36%59%63%32%31%39%59%36%31%36%36%63%43%39%64%39%37%36%43%33%32%59%36%64%39%39%64%36%34%30%44%36%32%30%37%46%41%34%63%61%33%37%38%65%58%35%33%43%39%33%65%61%34%31%39%38%58%46%34%36%39%44%46%34%39%38%58%33%34%59%39%37%66%30%34%63%36%32%7B%30%35%32%41%41%63%62%7B%38%37%33%43%36%35%44%62%63%64%36%46%43%36%39%63%30%31%37%36%58%63%35%31%63%37%33%63%61%32%31%37%38%43%46%32%36%43%30%32%33%37%37%44%31%32%59%34%61%38%37%58%31%34%35%39%63%32%39%38%30%41%31%46%38%35%41%38%30%65%64%34%34%39%59%46%32%34%39%41%30%46%37%34%65%61%35%46%43%35%33%61%61%35%35%39%44%5E%37%35%41%36%41%7E%37%35%33%61%33%66%64%35%66%59%58%44%38%31%35%37%44%31%33%37%32%37%31%64%39%36%46%43%58%63%64%33%39%43%59%32%61%32%39%44%32%31%58%37%30%43%36%58%34%34%35%39%66%46%36%34%34%38%46%46%36%34%39%39%34%66%62%34%65%39%39%7B%30%35%35%59%35%66%65%35%38%41%33%4F%59%41%31%4A%30%46%46%36%37%66%64%35%43%35%59%63%33%31%65%59%30%4E%46%21%65%62%37%26%33%35%35%61%62%63%39%32%61%38%34%64%62%32%39%37%34%64%63%33%38%38%65%64%63%32%37%38%58%58%31%32%63%39%33%65%38%34%38%39%31%66%61%32%30%38%44%65%34%33%62%39%32%65%39%34%30%39%37%58%58%34%35%39%43%66%33%34%41%65%32%34%36%39%38%66%33%33%65%61%38%66%34%35%31%61%37%43%41%21%37%61%34%66%65%35%65%41%38%59%41%32%32%62%62%59%46%35%46%62%62%7D%41%36%34%43%30%31%32%37%34%62%63%63%65%36%36%43%38%32%37%36%46%44%33%32%36%37%30%64%61%32%32%34%66%37%35%65%32%33%39%39%30%58%37%33%65%39%35%65%63%34%33%66%37%64%62%33%32%39%66%46%36%34%44%41%34%66%62%35%32%61%39%65%61%35%37%41%58%51%35%35%63%62%33%23%61%36%31%62%38%31%64%62%64%66%65%36%36%62%39%4D%59%36%37%62%37%43%37%37%39%35%46%43%43%32%33%37%61%64%31%32%38%37%46%64%36%32%44%38%34%64%62%33%32%38%39%32%36%38%36%64%63%33%39%34%39%44%39%32%59%38%58%58%31%33%59%39%46%62%37%66%34%35%32%44%32%34%59%39%35%66%61%35%31%35%35%64%66%35%37%39%59%26%33%35%63%35%66%63%38%33%44%36%62%43%37%31%32%41%43%31%35%36%39%63%31%2E%58%37%32%62%38%65%35%3A%59%37%38%43%46%32%36%37%44%64%34%32%62%38%32%64%39%33%30%38%37%44%58%33%35%63%66%33%32%38%36%58%30%33%41%35%39%39%36%66%30%38%61%65%31%40%32%35%39%62%30%2D%37%36%39%41%35%58%36%35%33%61%61%7C%31%35%38%41%46%25%36%35%64%59%34%47%62%36%32%59%39%31%30%61%64%5E%64%36%33%43%30%44%30%36%64%59%41%32%32%36%34%39%30%43%44%33%34%38%39%58%39%37%59%63%35%32%34%34%39%36%66%64%63%33%33%38%41%58%31%33%38%38%46%65%36%33%64%39%34%58%59%34%32%39%39%33%44%38%38%46%30%33%63%39%35%66%31%31%34%35%31%62%61%52%46%41%36%51%35%23%34%36%62%43%44%66%33%36%30%62%37%7B%58%36%35%62%63%31%33%36%61%63%31%31%38%36%46%63%36%31%44%59%35%31%39%36%62%43%36%31%31%37%59%63%37%32%34%37%41%39%64%64%61%38%38%63%39%33%31%38%34%44%36%33%32%38%32%39%32%46%41%39%33%39%37%33%37%39%33%58%32%33%63%39%38%65%61%34%43%39%34%41%36%33%65%61%30%66%66%34%37%61%62%46%58%34%38%62%32%66%61%32%37%36%33%41%34%31%31%36%38%59%46%31%36%36%44%63%34%31%6</script>
+    alert("🎭WELCOME TO CODE-X DEX v2.0 ⚠"); 
+</script>
+<body>
+
+
+    <div class="container">
+        <img src="https://i.ibb.co/dsQXDPB7/image.jpg" alt="ABDULLHA" class="circle-img">
+    </div>
+
+    <AX id="animatedText">
+        <span>C</span><span>O</span><span>D</span><span>E</span><span>-</span><span>X <span>D</span><span>E</span><span>X</span> <span>v</span><span>2</span><span>.</span><span>0</span>
+    </AX>
+    <div class="horizontal-line"></div>
+
+
+
+    <h2>Zlib Encoder/Decoder</h2>
+    <div class="input-container">
+        <textarea id="zlibInput" rows="4" placeholder=""></textarea>
+        <div class="input-actions">
+            <button onclick="clearInput('zlibInput')">CLEAR</button>
+            <button onclick="copyInput('zlibInput')">COPY</button>
+            <button onclick="pasteInput('zlibInput')">PASTE</button>
+        </div>
+    </div>
+    <div class="ENC-DEC-BOX">
+        <button onclick="encodeZlib()">ENCODE</button>
+        <button onclick="decodeZlib()">DECODE</button>
+    </div>
+    <div class="result-actions">
+        <button onclick="clearOutput('zlibOutput')">CLEAR</button>
+        <button onclick="copyOutput('zlibOutput')">COPY</button>
+    </div>
+    <br>
+    <div id="zlibOutput" class="output-box"></div>
+    <div class="horizontal-line"></div>
+
+
+
+    <h2>Base32 Encoder/Decoder</h2>
+    <div class="input-container">
+        <textarea id="base32Input" rows="4" placeholder=""></textarea>
+        <div class="input-actions">
+            <button onclick="clearInput('base32Input')">CLEAR</button>
+            <button onclick="copyInput('base32Input')">COPY</button>
+            <button onclick="pasteInput('base32Input')">PASTE</button>
+        </div>
+    </div>
+    <div class="ENC-DEC-BOX">
+        <button onclick="encodeBase32()">ENCODE</button>
+        <button onclick="decodeBase32()">DECODE</button>
+    </div>
+    <div class="result-actions">
+        <button onclick="clearOutput('base32Output')">CLEAR</button>
+        <button onclick="copyOutput('base32Output')">COPY</button>
+    </div>
+    <br>
+    <div id="base32Output" class="output-box"></div>
+    <div class="horizontal-line"></div>
+
+
+
+    <h2>Base64 Encoder/Decoder</h2>
+    <div class="input-container">
+        <textarea id="base64Input" rows="4" placeholder=""></textarea>
+        <div class="input-actions">
+            <button onclick="clearInput('base64Input')">CLEAR</button>
+            <button onclick="copyInput('base64Input')">COPY</button>
+            <button onclick="pasteInput('base64Input')">PASTE</button>
+        </div>
+    </div>
+    <div class="ENC-DEC-BOX">
+        <button onclick="encodeBase64()">ENCODE</button>
+        <button onclick="decodeBase64()">DECODE</button>
+    </div>
+    <div class="result-actions">
+        <button onclick="clearOutput('base64Output')">CLEAR</button>
+        <button onclick="copyOutput('base64Output')">COPY</button>
+    </div>
+    <br>
+    <div id="base64Output" class="output-box"></div>
+    <div class="horizontal-line"></div>
+
+
+
+    <h2>ROT13 Encoder/Decoder</h2>
+    <div class="input-container">
+        <textarea id="rot13Input" rows="4" placeholder=""></textarea>
+        <div class="input-actions">
+            <button onclick="clearInput('rot13Input')">CLEAR</button>
+            <button onclick="copyInput('rot13Input')">COPY</button>
+            <button onclick="pasteInput('rot13Input')">PASTE</button>
+        </div>
+    </div>
+    <div class="ENC-DEC-BOX">
+        <button onclick="encodeROT13()">ENCODE</button>
+        <button onclick="decodeROT13()">DECODE</button>
+    </div>
+    <div class="result-actions">
+        <button onclick="clearOutput('rot13Output')">CLEAR</button>
+        <button onclick="copyOutput('rot13Output')">COPY</button>
+    </div>
+    <br>
+    <div id="rot13Output" class="output-box"></div>
+    <div class="horizontal-line"></div>
+
+
+
+    <h2>AES Encoder/Decoder</h2>
+    <div class="input-container">
+        <textarea id="aesInput" rows="4" placeholder=""></textarea>
+        <textarea id="aesKey" rows="1" placeholder=""></textarea>
+        <div class="input-actions">
+            <button onclick="clearInput('aesInput')">CLEAR</button>
+            <button onclick="copyInput('aesInput')">COPY</button>
+            <button onclick="pasteInput('aesInput')">PASTE</button>
+        </div>
+    </div>
+    <div class="ENC-DEC-BOX">
+        <button onclick="aesEncrypt()">ENCODE</button>
+        <button onclick="aesDecrypt()">DECODE</button>
+    </div>
+    <div class="result-actions">
+        <button onclick="clearOutput('aesOutput')">CLEAR</button>
+        <button onclick="copyOutput('aesOutput')">COPY</button>
+    </div>
+    <br>
+    <div id="aesOutput" class="output-box"></div>
+    <div class="horizontal-line"></div>
+
+
+
+    <h2>XOR Encoder/Decoder</h2>
+    <div class="input-container">
+        <textarea id="xorInput" rows="4" placeholder=""></textarea>
+        <textarea id="xorKey" rows="1" placeholder=""></textarea>
+        <div class="input-actions">
+            <button onclick="clearInput('xorInput')">CLEAR</button>
+            <button onclick="copyInput('xorInput')">COPY</button>
+            <button onclick="pasteInput('xorInput')">PASTE</button>
+        </div>
+    </div>
+    <div class="ENC-DEC-BOX">
+        <button onclick="xorEncrypt()">ENCODE</button>
+        <button onclick="xorDecrypt()">DECODE</button>
+    </div>
+    <div class="result-actions">
+        <button onclick="clearOutput('xorOutput')">CLEAR</button>
+        <button onclick="copyOutput('xorOutput')">COPY</button>
+    </div>
+    <br>
+    <div id="xorOutput" class="output-box"></div>
+    <div class="horizontal-line"></div>
+
+
+
+    <h2>URL Encoder/Decoder</h2>
+    <div class="input-container">
+        <textarea id="urlInput" rows="4" placeholder=""></textarea>
+        <div class="input-actions">
+            <button onclick="clearInput('urlInput')">CLEAR</button>
+            <button onclick="copyInput('urlInput')">COPY</button>
+            <button onclick="pasteInput('urlInput')">PASTE</button>
+        </div>
+    </div>
+    <div class="ENC-DEC-BOX">
+        <button onclick="encodeURL()">ENCODE</button>
+        <button onclick="decodeURL()">DECODE</button>
+    </div>
+    <div class="result-actions">
+        <button onclick="clearOutput('urlOutput')">CLEAR</button>
+        <button onclick="copyOutput('urlOutput')">COPY</button>
+    </div>
+    <br>
+    <div id="urlOutput" class="output-box"></div>
+    <div class="horizontal-line"></div>
+
+
+
+    <h2>JSON Encoder/Decoder</h2>
+    <div class="input-container">
+        <textarea id="jsonInput" rows="4" placeholder=''></textarea>
+        <div class="input-actions">
+            <button onclick="clearInput('jsonInput')">CLEAR</button>
+            <button onclick="copyInput('jsonInput')">COPY</button>
+            <button onclick="pasteInput('jsonInput')">PASTE</button>
+        </div>
+    </div>
+    <div class="ENC-DEC-BOX">
+        <button onclick="encodeJSON()">ENCODE</button>
+        <button onclick="decodeJSON()">DECODE</button>
+    </div>
+    <div class="result-actions">
+        <button onclick="clearOutput('jsonOutput')">CLEAR</button>
+        <button onclick="copyOutput('jsonOutput')">COPY</button>
+    </div>
+    <br>
+    <div id="jsonOutput" class="output-box"></div>
+    <div class="horizontal-line"></div>
+
+
+
+    <h2>PHP Encoder/Decoder</h2>
+    <div class="input-container">
+        <textarea id="phpInput" rows="4" placeholder=''></textarea>
+        <div class="input-actions">
+            <button onclick="clearInput('phpInput')">CLEAR</button>
+            <button onclick="copyInput('phpInput')">COPY</button>
+            <button onclick="pasteInput('phpInput')">PASTE</button>
+        </div>
+    </div>
+    <div class="ENC-DEC-BOX">
+        <button onclick="encodePHP()">ENCODE</button>
+        <button onclick="decodePHP()">DECODE</button>
+    </div>
+    <div class="result-actions">
+        <button onclick="clearOutput('phpOutput')">CLEAR</button>
+        <button onclick="copyOutput('phpOutput')">COPY</button>
+    </div>
+    <br>
+    <div id="phpOutput" class="output-box"></div>
+    <div class="horizontal-line"></div>
+
+
+
+    <h2>HTML Encoder/Decoder</h2>
+    <div class="input-container">
+        <textarea id="htmlInput" rows="4" placeholder=''></textarea>
+        <div class="input-actions">
+            <button onclick="clearInput('htmlInput')">CLEAR</button>
+            <button onclick="copyInput('htmlInput')">COPY</button>
+            <button onclick="pasteInput('htmlInput')">PASTE</button>
+        </div>
+    </div>
+    <div class="ENC-DEC-BOX">
+        <button onclick="encodeHTML()">ENCODE</button>
+        <button onclick="decodeHTML()">DECODE</button>
+    </div>
+    <div class="result-actions">
+        <button onclick="clearOutput('htmlOutput')">CLEAR</button>
+        <button onclick="copyOutput('htmlOutput')">COPY</button>
+    </div>
+    <br>
+    <div id="htmlOutput" class="output-box"></div>
+    <div class="horizontal-line"></div>
+
+
+
+    <h2>HEX Encoder/Decoder</h2>
+    <div class="input-container">
+        <textarea id="hexInput" rows="4" placeholder=""></textarea>
+        <div class="input-actions">
+            <button onclick="clearInput('hexInput')">CLEAR</button>
+            <button onclick="copyInput('hexInput')">COPY</button>
+            <button onclick="pasteInput('hexInput')">PASTE</button>
+        </div>
+    </div>
+    <div class="ENC-DEC-BOX">
+        <button onclick="encodeHex()">ENCODE</button>
+        <button onclick="decodeHex()">DECODE</button>
+    </div>
+    <div class="result-actions">
+        <button onclick="clearOutput('hexOutput')">CLEAR</button>
+        <button onclick="copyOutput('hexOutput')">COPY</button>
+    </div>
+    <br>
+    <div id="hexOutput" class="output-box"></div>
+    <div class="horizontal-line"></div>
+
+
+
+    <h2>ASCII Encoder/Decoder</h2>
+    <div class="input-container">
+        <textarea id="asciiInput" rows="4" placeholder=""></textarea>
+        <div class="input-actions">
+            <button onclick="clearInput('asciiInput')">CLEAR</button>
+            <button onclick="copyInput('asciiInput')">COPY</button>
+            <button onclick="pasteInput('asciiInput')">PASTE</button>
+        </div>
+    </div>
+    <div class="ENC-DEC-BOX">
+        <button onclick="encodeASCII()">ENCODE</button>
+        <button onclick="decodeASCII()">DECODE</button>
+    </div>
+    <div class="result-actions">
+        <button onclick="clearOutput('asciiOutput')">CLEAR</button>
+        <button onclick="copyOutput('asciiOutput')">COPY</button>
+    </div>
+    <br>
+    <div id="asciiOutput" class="output-box"></div>
+    <div class="horizontal-line"></div>
+
+
+
+    <h2>Hashlib SHA-256/MD5</h2>
+    <div class="input-container">
+        <textarea id="hashInput" rows="4" placeholder=""></textarea>
+        <div class="input-actions">
+            <button onclick="clearInput('hashInput')">CLEAR</button>
+            <button onclick="copyInput('hashInput')">COPY</button>
+            <button onclick="pasteInput('hashInput')">PASTE</button>
+        </div>
+    </div>
+    <div class="ENC-DEC-BOX">
+        <button onclick="hashSHA256()">ExSHA256</button>
+        <button onclick="hashMD5()">DxMD5</button>
+    </div>
+    <div class="result-actions">
+        <button onclick="clearOutput('hashOutput')">CLEAR</button>
+        <button onclick="copyOutput('hashOutput')">COPY</button>
+    </div>
+    <br>
+    <div id="hashOutput" class="output-box"></div>
+    <div class="horizontal-line"></div>
+
+
+    <h3>Developer © Abdullha</h3>
+
+
+    <script>
+
+
+        function clearInput(id) {
+            document.getElementById(id).value = "";
+        }
+
+        function copyInput(id) {
+            var inputText = document.getElementById(id);
+            inputText.select();
+            document.execCommand('copy');
+        }
+
+        function pasteInput(id) {
+            navigator.clipboard.readText().then(function(text) {
+                document.getElementById(id).value = text;
+            }).catch(function(error) {});
+        }
+
+        function clearOutput(id) {
+            document.getElementById(id).textContent = '';
+        }
+
+        function copyOutput(id) {
+            const output = document.getElementById(id).textContent;
+            navigator.clipboard.writeText(output);
+        }
+
+
+
+        function encodeZlib() {
+            const input = document.getElementById("zlibInput").value;
+            const compressed = pako.deflate(input, {
+                to: 'string'
+            });
+            document.getElementById("zlibOutput").textContent = btoa(compressed);
+        }
+        function decodeZlib() {
+            const input = atob(document.getElementById("zlibInput").value);
+            const decompressed = pako.inflate(input, {
+                to: 'string'
+            });
+            document.getElementById("zlibOutput").textContent = decompressed;
+        }
+
+
+
+        const base32 = {
+            encode: (data) => {
+                const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+                let bits = "",
+                result = "";
+                for (let i = 0; i < data.length; i++) {
+                    bits += data.charCodeAt(i).toString(2).padStart(8, "0");
+                }
+                for (let i = 0; i < bits.length; i += 5) {
+                    const chunk = bits.substr(i, 5).padEnd(5, "0");
+                    result += alphabet[parseInt(chunk, 2)];
+                }
+                return result.padEnd(Math.ceil(result.length / 8) * 8, "=");
+            },
+            decode: (data) => {
+                const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+                let bits = "",
+                result = "";
+                data = data.replace(/=/g, "");
+                for (let i = 0; i < data.length; i++) {
+                    bits += alphabet.indexOf(data[i]).toString(2).padStart(5, "0");
+                }
+                for (let i = 0; i < bits.length; i += 8) {
+                    const chunk = bits.substr(i, 8);
+                    if (chunk.length === 8) {
+                        result += String.fromCharCode(parseInt(chunk, 2));
+                    }
+                }
+                return result;
+            }
+        };
+        function encodeBase32() {
+            const input = document.getElementById("base32Input").value;
+            const encoded = base32.encode(input);
+            document.getElementById("base32Output").textContent = encoded;
+        }
+        function decodeBase32() {
+            const input = document.getElementById("base32Input").value;
+            try {
+                const decoded = base32.decode(input);
+                document.getElementById("base32Output").textContent = decoded;
+            } catch (error) {
+                document.getElementById("base32Output").textContent = "Error: Invalid Base32 input.";
+            }
+        }
+
+
+
+        function encodeBase64() {
+            const input = document.getElementById("base64Input").value;
+            const encoded = btoa(input);
+            document.getElementById("base64Output").textContent = encoded;
+        }
+        function decodeBase64() {
+            const input = document.getElementById("base64Input").value;
+            const decoded = atob(input);
+            document.getElementById("base64Output").textContent = decoded;
+        }
+
+
+
+        function encodeROT13() {
+            const input = document.getElementById("rot13Input").value;
+            const encoded = input.replace(/[a-zA-Z]/g, function(c) {
+                return String.fromCharCode(((c.charCodeAt(0) - (c < 'a' ? 65: 97) + 13) % 26) + (c < 'a' ? 65: 97));
+            });
+            document.getElementById("rot13Output").textContent = encoded;
+        }
+        function decodeROT13() {
+            encodeROT13();
+        }
+
+
+
+        function xorEncrypt() {
+            const input = document.getElementById("xorInput").value;
+            const key = document.getElementById("xorKey").value;
+            if (!key) {
+                document.getElementById("xorOutput").textContent = "Error: XOR key is required.";
+                return;
+            }
+            const encrypted = Array.from(input)
+            .map((char, i) => String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(i % key.length)))
+            .join('');
+            document.getElementById("xorOutput").textContent = btoa(encrypted);
+        }
+        function xorDecrypt() {
+            const input = document.getElementById("xorInput").value;
+            const key = document.getElementById("xorKey").value;
+            if (!key) {
+                document.getElementById("xorOutput").textContent = "Error: XOR key is required.";
+                return;
+            }
+            try {
+                const decoded = atob(input);
+                const decrypted = Array.from(decoded)
+                .map((char, i) => String.fromCharCode(char.charCodeAt(0) ^ key.charCodeAt(i % key.length)))
+                .join('');
+                document.getElementById("xorOutput").textContent = decrypted;
+            } catch (error) {
+                document.getElementById("xorOutput").textContent = "Error: Invalid XOR input or key.";
+            }
+        }
+
+
+
+        function aesEncrypt() {
+            const input = document.getElementById("aesInput").value;
+            const key = document.getElementById("aesKey").value;
+            const encrypted = CryptoJS.AES.encrypt(input, key).toString();
+            document.getElementById("aesOutput").textContent = encrypted;
+        }
+        function aesDecrypt() {
+            const input = document.getElementById("aesInput").value;
+            const key = document.getElementById("aesKey").value;
+            const decrypted = CryptoJS.AES.decrypt(input, key).toString(CryptoJS.enc.Utf8);
+            document.getElementById("aesOutput").textContent = decrypted;
+        }
+
+
+
+        function encodeURL() {
+            const input = document.getElementById("urlInput").value;
+            document.getElementById("urlOutput").textContent = encodeURIComponent(input);
+        }
+        function decodeURL() {
+            const input = document.getElementById("urlInput").value;
+            try {
+                document.getElementById("urlOutput").textContent = decodeURIComponent(input);
+            } catch (error) {
+                document.getElementById("urlOutput").textContent = "Error: Invalid URL input.";
+            }
+        }
+
+
+
+        function encodeJSON() {
+            const input = document.getElementById("jsonInput").value;
+            try {
+                const parsed = JSON.parse(input);
+                const encoded = JSON.stringify(parsed, null, 2);
+                document.getElementById("jsonOutput").textContent = encoded;
+            } catch (error) {
+                document.getElementById("jsonOutput").textContent = "Error: Invalid JSON input.";
+            }
+        }
+        function decodeJSON() {
+            const input = document.getElementById("jsonInput").value;
+            try {
+                const decoded = JSON.stringify(JSON.parse(input));
+                document.getElementById("jsonOutput").textContent = decoded;
+            } catch (error) {
+                document.getElementById("jsonOutput").textContent = "Error: Invalid JSON input.";
+            }
+        }
+
+
+
+        function encodePHP() {
+            const input = document.getElementById('phpInput').value;
+            const output = btoa(input);
+            document.getElementById('phpOutput').innerText = output;
+        }
+        function decodePHP() {
+            const input = document.getElementById('phpInput').value;
+            try {
+                const output = atob(input);
+                document.getElementById('phpOutput').innerText = output;
+            } catch (error) {
+                document.getElementById('phpOutput').innerText = 'Error: ' + error.message;
+            }
+        }
+
+
+
+        function encodeHTML() {
+            const input = document.getElementById('htmlInput').value;
+            const obfuscated = input.split('').map(char => `&#${char.charCodeAt(0)};`).join('');
+            document.getElementById('htmlOutput').innerText = obfuscated;
+        }
+        function decodeHTML() {
+            const input = document.getElementById('htmlInput').value;
+            const deobfuscated = input.replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec));
+            document.getElementById('htmlOutput').innerText = deobfuscated;
+        }
+
+
+
+        function hashSHA256() {
+            const input = document.getElementById('hashInput').value;
+            const hash = CryptoJS.SHA256(input).toString();
+            document.getElementById('hashOutput').innerText = hash;
+        }
+        function hashMD5() {
+            const input = document.getElementById('hashInput').value;
+            const hash = CryptoJS.MD5(input).toString();
+            document.getElementById('hashOutput').innerText = hash;
+        }
+
+
+
+        function encodeHex() {
+            const input = document.getElementById('hexInput').value;
+            let hex = '';
+            for (let i = 0; i < input.length; i++) {
+                hex += input.charCodeAt(i).toString(16);
+            }
+            document.getElementById('hexOutput').textContent = hex;
+        }
+        function decodeHex() {
+            const input = document.getElementById('hexInput').value;
+            let str = '';
+            for (let i = 0; i < input.length; i += 2) {
+                str += String.fromCharCode(parseInt(input.substr(i, 2), 16));
+            }
+            document.getElementById('hexOutput').textContent = str;
+        }
+
+
+
+        function encodeASCII() {
+            const input = document.getElementById('asciiInput').value;
+            let ascii = '';
+            for (let i = 0; i < input.length; i++) {
+                ascii += input.charCodeAt(i) + ' ';
+            }
+            document.getElementById('asciiOutput').textContent = ascii.trim();
+        }
+        function decodeASCII() {
+            const input = document.getElementById('asciiInput').value;
+            const asciiArray = input.split(' ');
+            let str = '';
+            for (let i = 0; i < asciiArray.length; i++) {
+                str += String.fromCharCode(parseInt(asciiArray[i]));
+            }
+            document.getElementById('asciiOutput').textContent = str;
+        }
+
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const colors = ["black", "white", "red", "blue", "green", "orange", "purple", "cyan", "pink", "yellow"];
+            const textSpans = document.querySelectorAll("#animatedText span");
+            function changeColors() {
+                textSpans.forEach((span, index) => {
+                    setTimeout(() => {
+                        span.style.color = colors[Math.floor(Math.random() * colors.length)];
+                    }, index * 500);
+                });
+            }
+            setInterval(changeColors, 1000);
+        });
+        
+
+    </script>
+<script>
+    document.onkeydown = e => {
+        if(e.key == "F12") {
+            alert("কিরে বোকাচন্দ্র F12 ক্লিক করো ক্যা ।\n তোর আব্বার WEBSITE আব্বার নাম ABDULLHA.")
+            return false
+        }
+        if(e.ctrlKey && e.key == "u") {
+            alert("কিরে বোকাচন্দ্র Ctrl+u ক্লিক করো ক্যা ।\n তোর আব্বার WEBSITE আব্বার নাম ABDULLHA.")
+            return false
+        }
+        if(e.ctrlKey && e.key == "c") {
+            alert("কিরে বোকাচন্দ্র Ctrl+c ক্লিক করো ক্যা ।\n তোর আব্বার WEBSITE আব্বার নাম ABDULLHA.")
+            return false
+        }
+        if(e.ctrlKey && e.key == "v") {
+            alert("কিরে বোকাচন্দ্র Ctrl+v ক্লিক করো ক্যা ।\n তোর আব্বার WEBSITE আব্বার নাম ABDULLHA.")
+            return false
+        }
+    }
+    </script>
+
+
+<script>
+    document.addEventListener('copy', function(event) {
+        alert("কিরে শুয়োরের বাচ্চা COPPY করো 😈🤬😡🤬😡")
+        event.clipboardData.setData('text/plain', '১। শুয়োরের বাচ্চা২। কুত্তার বাচ্ছা৩। হারামির বাচ্চা৪। হারামি৫। হারামজাদা৬। হারামখোর৭। খাঙ্কিরপোলা৮। খান্কি মাগির পোলা৯। চোদনা১০। চুদির ভাই১১। চুতমারানি১২। চুদির পোলা১৩। তর মায়রে চুদি১৪। তর মায়রে বাপ১৫। শালা১৬। শালার পো শালা১৭। হুমুন্দির পুত১৮। মাঙ্গির পুত৯। নাটকির পো২০। ল্যাউড়ার পুত২১.হাউয়ার পো২৩.চুদানির পো২৪.ভুদার বেটা২৫.লটির পো২৬.লটির বেটা২৭.ভেড়াচ্চোদা');
+        alert("কিরে শুয়োরের বাচ্চা COPPY করো 😈🤬😡🤬😡\n তোর আব্বার WEBSITE আব্বার নাম ABDULLHA.")
+        event.preventDefault();
+     });
+</script>
+</body>
+</html>
